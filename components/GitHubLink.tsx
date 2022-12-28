@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ThirdwebGuideFooter() {
-  const url = "https://github.com/thirdweb-example/signature-drop";
+  const url = "https://linktr.ee/wotify_nfts";
   return (
     <>
       <div
@@ -11,9 +11,9 @@ export default function ThirdwebGuideFooter() {
           right: -80,
           height: 300,
           width: 150,
-          border: "1px solid #eaeaea",
+          border: "1px solid #ffffff",
           transform: "rotate(45deg)",
-          backgroundColor: " #262935",
+          backgroundColor: "#091a0d",
           cursor: "pointer",
         }}
         role="button"
@@ -28,12 +28,12 @@ export default function ThirdwebGuideFooter() {
         }}
       >
         <img
-          src={"/github.png"}
-          width={40}
-          height={40}
+          src={"/links_wotify2.png"} alt="link big font"
+          width={45}
+          height={45}
           role="button"
           style={{ cursor: "pointer" }}
-          onClick={() => window.open(url, "_blank")}
+          onClick={() => window.open(url, "_blank", "noreferrer")}
         />
       </div>
     </>
