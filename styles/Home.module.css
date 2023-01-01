@@ -184,7 +184,7 @@
   border-width: 5px;
   margin-left: 15px;
   margin-right: 15px;
-
+  transition: all 0.2s linear;
 }
 
 .mainButton2 {
@@ -220,6 +220,8 @@
 
 .mainButton:hover {
   opacity: 0.8;
+  transform: translateY(-3px);
+  color: #fff;
 }
 
 .nftBoxGrid {
