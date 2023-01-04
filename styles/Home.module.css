@@ -37,6 +37,25 @@
   margin-top: 20px;
 }
 
+.soldOutText {
+  color: #37d8ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-top: 20px;
+  animation: fadeInSoldOut 6s;
+}
+
+@keyframes fadeInSoldOut {
+  from{opacity: 0;}
+  to{opacity: 1;}
+}
+
+.linkBelowButton {
+  color: #fff;
+  text-decoration: line-through;
+}
+
 .dot1 {
   height: 5px;
   width: 5px;
@@ -184,7 +203,7 @@
   border-width: 5px;
   margin-left: 15px;
   margin-right: 15px;
-  transition: all 0.2s linear;
+  transition: transform 0.2s linear, color 0.2s linear;
 }
 
 .mainButton2 {

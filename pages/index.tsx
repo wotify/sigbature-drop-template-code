@@ -378,9 +378,16 @@ const Home: NextPage = () => {
             MINT
           </Web3Button>
 
-          <p className={styles.priceBelowButton}>
-            Total mint amount : {(mintQuantity * 0.05).toFixed(4)} ETH + fee 
-          </p>
+          {
+            unclaimedSupply?.toNumber() == 0?(
+              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
+            ):(
+              <p className={styles.priceBelowButton}>
+                Total mint amount : {(mintQuantity * 0.05).toFixed(4)} ETH + fee 
+              </p>
+            )
+          }
+
           
         </div>
 
@@ -411,9 +418,17 @@ const Home: NextPage = () => {
             MINT WITH KEY
           </Web3Button>
 
-          <p className={styles.priceBelowButton}>
-            Total mint amount : {(mintQuantity * 0.025).toFixed(4)} ETH + fee 
-          </p>
+          {
+            unclaimedSupply?.toNumber() == 0?(
+              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
+            ):(
+              <p className={styles.priceBelowButton}>
+                Total mint amount : {(mintQuantity * 0.025).toFixed(4)} ETH + fee 
+              </p>
+            )
+          }
+
+
          
         </div>
       </div>
