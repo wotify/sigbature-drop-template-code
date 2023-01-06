@@ -180,7 +180,7 @@ const Home: NextPage = () => {
       const tx = await signatureDrop?.claim(mintQuantity);
       setAlert(`SUCCESS!..${mintQuantity} WOTIFY TANK(S) MINTED!`);
       editMintQuantity(1);
-      const endClaimSound = new Audio("/success.wav");
+      const endClaimSound = new Audio("/spaceship.wav");
       endClaimSound.play();
 
       document.getElementById("minusButton")?.removeAttribute("disabled");
@@ -239,8 +239,8 @@ const Home: NextPage = () => {
         const nft = await signatureDrop?.signature.mint(signedPayload);
 
         setAlert(`SUCCESS!..${mintQuantity} WOTIFY TANK(S) MINTED WITH DISCOUNT!`);
-        const endClaimSoundSig = new Audio("/success.wav");
-       endClaimSoundSig.play();
+        const endClaimSoundSig = new Audio("/spaceship.wav");
+        endClaimSoundSig.play();
 
        document.getElementById("minusButton")?.removeAttribute("disabled");
        document.getElementById("plusButton")?.removeAttribute("disabled");
@@ -298,7 +298,7 @@ const Home: NextPage = () => {
       </div>
 
 
-      {/*my version of "claimed so far" with "someone just minted fading additional paragraph*/}
+      {/*my version of "claimed so far" */}
       
         {
           claimedSupply && unclaimedSupply ? (
@@ -330,10 +330,9 @@ const Home: NextPage = () => {
 
       </div>)}*/}
 
-     
 
-      {/*set mint quantity box v2*/}
-      {
+         {/*set mint quantity box v2*/}
+         {
       address?(
       <div className={styles.quantityContainer} id="quantityAddressTrue">
         <span className={styles.quantityBoxText}>QUANTITY</span>
@@ -343,22 +342,36 @@ const Home: NextPage = () => {
         <span className={styles.quantityBoxText}>QUANTITY</span>
       </div>):(
         <div className={styles.quantityContainer} id="quantityAddressFalse">
-        <span className={styles.quantityBoxText}>CONNECT WALLET</span>
+        <span className={styles.quantityBoxText}>OFF</span>
         <button className={styles.mainButton} disabled>-</button>
         <span className={styles.quantityNumber}>Qty</span>
         <button className={styles.mainButton} disabled>+</button>
-        <span className={styles.quantityBoxText}>CONNECT WALLET</span>
+        <span className={styles.quantityBoxText}>OFF</span>
       </div>
       )
-      }
+      } 
 
-      
+ 
+
+
+
+
 
 
       <div className={styles.nftBoxGrid}>
         <div className={styles.optionSelectBox}>
           <img src={`/blue_tank.png`} alt="wotify tank" className={styles.cardImg}/>
-          <h2 className={styles.selectBoxTitle}>Mint</h2>
+          
+          {/*title or sold out state if claimedSupply.toNumber() == 0*/}
+          {
+            unclaimedSupply?.toNumber() == 0?(
+              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
+            ):(
+              <h2 className={styles.selectBoxTitle}>Mint</h2>
+            )
+          }
+
+
           {/*mint detector*/}
           <p className={styles.mintDetectorText}>
             new mint
@@ -377,7 +390,7 @@ const Home: NextPage = () => {
           >
             MINT
           </Web3Button>
-
+          {/*if uclaimedSupply == 0 show "sold out" text*/}
           {
             unclaimedSupply?.toNumber() == 0?(
               <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
@@ -398,7 +411,16 @@ const Home: NextPage = () => {
             alt="signature-mint"
             className={styles.cardImg}
           />
-          <h2 className={styles.selectBoxTitle}>Mint With Key</h2>
+
+          {/*title or sold out state if claimedSupply.toNumber() == 0*/}
+          {
+            unclaimedSupply?.toNumber() == 0?(
+              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
+            ):(
+              <h2 className={styles.selectBoxTitle}>Mint With Key</h2>
+            )
+          }
+
           {/*mint detector*/}
           <p className={styles.mintDetectorText}>
             new mint
@@ -417,7 +439,7 @@ const Home: NextPage = () => {
           >
             MINT WITH KEY
           </Web3Button>
-
+          {/*if uclaimedSupply == 0 show "sold out" text*/}
           {
             unclaimedSupply?.toNumber() == 0?(
               <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
