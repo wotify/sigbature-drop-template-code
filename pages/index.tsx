@@ -149,7 +149,7 @@ const Home: NextPage = () => {
       let minusVar : number = mintQuantity;
       minusVar = minusVar - 1;
       editMintQuantity(minusVar);
-      setAlert(`READY TO MINT ${minusVar} Tank(s)..PICK ONE MINT BUTTON..`);
+      setAlert(`READY TO MINT ${minusVar} TANK(S)..PICK ONE MINT BUTTON..`);
     }else{
       setAlert("MIN QUANTITY PER TRANSACTION IS 1..READY TO MINT 1 TANK..");
       return;
@@ -188,7 +188,7 @@ const Home: NextPage = () => {
             
     } catch (error: any) {
       console.log(error?.message);
-      setAlert(`FAILED TXN!..REJECTED BY USER, SHORT FUNDS, BUSY CHAIN..RETRY?`);
+      setAlert(`FAILED TXN!..REJECTED BY USER, SHORT FUNDS, SOLD OUT..RETRY?`);
       const endClaimSound2 = new Audio("/fail.wav");
       endClaimSound2.play();
 
@@ -247,7 +247,7 @@ const Home: NextPage = () => {
         
       } catch (error: any) {
         console.log(error?.message);
-        setAlert(`FAILED TXN!..REJECTED BY USER, SHORT FUNDS, BUSY CHAIN..RETRY?`);
+        setAlert(`FAILED TXN!..REJECTED BY USER, SHORT FUNDS, SOLD OUT..RETRY?`);
         const endClaimSoundSig3 = new Audio("/fail.wav");
         endClaimSoundSig3.play();
 
