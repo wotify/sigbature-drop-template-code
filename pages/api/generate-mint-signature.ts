@@ -36,7 +36,7 @@ export default async function generateMintSignature(
     "goerli"
   );
   const signatureDrop = await goerliSDK.getContract(
-    "0xE1fa992aC192186eF50Adf4F4CEa80E6a07cfd48",
+    "0x0765213E3339eC564871b934d8CE279EC2096b24",
     'signature-drop'
   );    // adresa mog signature drop - wotify
 
@@ -44,7 +44,7 @@ export default async function generateMintSignature(
   if (userHasToken) {
     const mintSignature = await signatureDrop.signature.generate({
       to: address, // Can only be minted by the address we checked earlier
-      price: "0.03", // Free! ili moja cena sa popustom
+      price: "0.0005", // Free! ili moja cena sa popustom
       mintStartTime: new Date(0), // now
       quantity: mintQuantity,
     });
