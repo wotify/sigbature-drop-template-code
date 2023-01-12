@@ -36,7 +36,7 @@ export default async function generateMintSignature(
     "goerli"
   );
   const signatureDrop = await goerliSDK.getContract(
-    "0x0765213E3339eC564871b934d8CE279EC2096b24",
+    "0x96262268e1725D35771BA70dab8f75dE2B6FDa31",
     'signature-drop'
   );    // adresa mog signature drop - wotify
 

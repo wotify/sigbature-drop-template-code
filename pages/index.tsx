@@ -7,7 +7,7 @@ import { type } from "os";
 import { id, _toEscapedUtf8String } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 
-const signatureDropAddress = "0x0765213E3339eC564871b934d8CE279EC2096b24";  {/*adresa test/Wotify signature drop*/}
+const signatureDropAddress = "0x96262268e1725D35771BA70dab8f75dE2B6FDa31";  {/*adresa test/Wotify signature drop*/}
 
 const Home: NextPage = () => {
   const address = useAddress();
