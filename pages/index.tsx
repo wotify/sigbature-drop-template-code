@@ -6,50 +6,55 @@ import { useState, useEffect, useRef } from "react";
 import { type } from "os";
 import { id, _toEscapedUtf8String } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
+import { HexColor } from "@thirdweb-dev/sdk/dist/declarations/src/core/schema/shared";
 
-const signatureDropAddress = "0x96262268e1725D35771BA70dab8f75dE2B6FDa31";  {/*adresa test/Wotify signature drop*/}
+const signatureDropAddress = "0x96262268e1725D35771BA70dab8f75dE2B6FDa31";  {/*your new signature-drop contract address*/}
 
 const Home: NextPage = () => {
+
   const address = useAddress();
-  {/*povezivanje sa test/Wotify contract-om*/}
+
+
+  {/*connection with your signature-drop contract*/}
   const { contract: signatureDrop } = useContract(
     signatureDropAddress,
     "signature-drop"
   );
 
-  // new - conecting to NFTs
 
+  //  conecting to NFTs - use this to display contract's metadata and your nfts
   const{data: nfts, isLoading} = useNFTs(signatureDrop);
   const{data: metadata, isLoading: loadingMetadata} = useContractMetadata(signatureDrop);
 
-  {/*useState koji prati alerte koji idu kroz userAlert promenljivu*/}
+
+  //  hook for alerts DApp displays to the users..next to the blinking triangle
+  //  located in both claim functions and increaseMintQuantity/decreaseMintQuantity...
+  //  rendered in the --- return --- user alerts-messages display
   const[userAlert, setAlert] = useState('WALLET CONNECTED!..READY TO MINT 1 TANK..');
 
-  
+
+  //  hook for DApp sounds toggle
+  //  initial state is true
+  //  state toggles on soundButton click via changeValueForSoundHook function
+  const[isSoundOn, setSound] = useState(true);
 
 
-      // Load claimed supply and unclaimed supply
+   //  Loader for claimed supply and unclaimed supply from your signature-drop contract
   const { data: unclaimedSupply } = useUnclaimedNFTSupply(signatureDrop);
   const { data: claimedSupply } = useClaimedNFTSupply(signatureDrop);
 
 
-
-  
-
-  // useEffect for minted event
- 
-  //original animate arg ([{opacity: 0}, {opacity: 1}, {opacity: 0}], {duration: 4000, iterations: 3 })
-
+  //  useEffect for minted event - top card -images are blinking - trigger is new mint < = > unlaimedSupply change
+  //  original animate arg ([{opacity: 0}, {opacity: 1}, {opacity: 0}], {duration: 4000, iterations: 3 })
     useEffect(() => {
-      
       setTimeout(() => {
         document.getElementById("card1")?.animate([{opacity: 0.2}, {opacity: 1}], {duration: 1500, iterations: 6 });
         document.getElementById("card2")?.animate([{opacity: 0.2}, {opacity: 1}], {duration: 1500, iterations: 6 }); 
       }, 3000);
     }, [claimedSupply?.toNumber()])
 
-    // function for css dot animation
 
+    //  hook for css 4 dots at the page bottom animation
     useEffect(() => {
       document.getElementById("dot1")?.animate([{opacity: 1}, {opacity: 0.1}], {duration: 4000, iterations: Infinity });
       setTimeout(() => {
@@ -63,23 +68,14 @@ const Home: NextPage = () => {
       }, 1000)
     },[])
 
-    useEffect(() => {
-     
+    //  fade-in effect for quantity buttons block - trigger is address state/change
+    useEffect(() => { 
         document.getElementById("quantityAddressTrue")?.animate([{opacity: 0}, {opacity: 1}], {duration: 6000, iterations: 1 });
-      
         document.getElementById("quantityAddressFalse")?.animate([{opacity: 0}, {opacity: 1}], {duration: 6000, iterations: 1 });
-      
-      
     },[address])
 
 
-
-  
-
-
-
-  // kod za pristup user inputu za mint quantity
-
+  //  old code for accessing user input for mint quantity
   {/*
   var finalMintQuantity : number = 0;
   function changeMintQuantity(){
@@ -96,13 +92,14 @@ const Home: NextPage = () => {
   }
 */}
 
- // var mintQuantity : number = 0;
+
+ //  variable mintQuantity - will hold user input for quantity - default value == 1
   const[mintQuantity , editMintQuantity] = useState(1);
 
-  //set
+
+  //  deprecated function for setting up mintQuantity
   function setMintQuantity(){
     const userInput = document.getElementById("userInput") as HTMLInputElement | null;
-
     if(userInput == null){
       setAlert(`oops!...browser.glitch...please.choose.again...`);
       return;
@@ -120,16 +117,21 @@ const Home: NextPage = () => {
     }
   }
 
-  //reset
+
+  //  reset mintQuantity to 0 - deprecated
   function resetMintQuantity(){
     editMintQuantity(0);
     setAlert(`reset.done!...quantity.set.to.0...pick.a.new.whole.number.between.0.and.6...`);
   }
+
  
-  //increase
+  //  called with the + button - if condition 5 because max mint qt you allow is 5 per txn
+  //  5 matches with 5 per txn in drop claim conditions set through thirdweb dashboard
   function increaseMintQuantity(){
+    if(isSoundOn){
     const shutterSound = new Audio("/finger.wav");
     shutterSound.play();
+    }
     if(mintQuantity < 5){
       let plusVar : number = mintQuantity;
       plusVar = plusVar + 1;
@@ -141,10 +143,13 @@ const Home: NextPage = () => {
     }
   }
 
-  //decrease
+
+  //  called with the minus button - in if > 1 to avoid setting qt to 0
   function decreaseMintQuantity(){
+    if(isSoundOn){
     const shutterSoundDec = new Audio("/finger.wav");
     shutterSoundDec.play();
+    }
     if(mintQuantity > 1){
       let minusVar : number = mintQuantity;
       minusVar = minusVar - 1;
@@ -156,7 +161,8 @@ const Home: NextPage = () => {
     }
   }
 
-  //on address disconect resets mintQuantity and userAlert
+
+  //  deprecated - on address disconect resets mintQuantity and userAlert
   function resetQtAndAlert(){
     editMintQuantity(1);
     setAlert('wallet.connected...ready.to.mint.1.Tank...reset.quantity.or.pick.one.mint.button...');
@@ -164,24 +170,30 @@ const Home: NextPage = () => {
   }
 
 
-  // claim function..............................................
-  
-
+  //  standard claim function - uses parameters set in the thirdweb dashboard/contract/claim conditions
+  //  we are passing the mint quantity set by the user as mintQuantity variable
   async function claim() {
 
+    //  grabs the sound from the public folder and plays it
+    if(isSoundOn){
     const claimSound = new Audio("/finger.wav");
     claimSound.play();
+    }
 
+    //  disable quantity buttons while claiming/minting NFTs
     document.getElementById("minusButton")?.setAttribute("disabled", "");
     document.getElementById("plusButton")?.setAttribute("disabled", "");
 
     try {
-      setAlert(`MINTING ${mintQuantity} TANK(S) FOR ${(0.05*mintQuantity).toFixed(4)} ETH..PLEASE WAIT..`); //uneti cenu i valutu
+      //  below, input/hardcode price from claim Conditions/thirdweb dashboard and chain currencu..ETH..MATIC..etc..
+      setAlert(`MINTING ${mintQuantity} TANK(S) FOR ${(0.001*mintQuantity).toFixed(4)} ETH..PLEASE WAIT..`);
       const tx = await signatureDrop?.claim(mintQuantity);
       setAlert(`SUCCESS!..${mintQuantity} WOTIFY TANK(S) MINTED!`);
       editMintQuantity(1);
+      if(isSoundOn){
       const endClaimSound = new Audio("/spaceship.wav");
       endClaimSound.play();
+      }
 
       document.getElementById("minusButton")?.removeAttribute("disabled");
       document.getElementById("plusButton")?.removeAttribute("disabled");
@@ -189,8 +201,10 @@ const Home: NextPage = () => {
     } catch (error: any) {
       console.log(error?.message);
       setAlert(`FAILED TXN!..REJECTED BY USER, SHORT FUNDS, SOLD OUT..RETRY?`);
+      if(isSoundOn){
       const endClaimSound2 = new Audio("/fail.wav");
       endClaimSound2.play();
+      }
 
       document.getElementById("minusButton")?.removeAttribute("disabled");
       document.getElementById("plusButton")?.removeAttribute("disabled");
@@ -199,13 +213,18 @@ const Home: NextPage = () => {
 
 
   //  claim with signature
+  //  makes an API call to /api/generate-mint-signature and checks if user/wallet has an NFT from specified collection
+  //  if user has NFT generates signature for minting with mintQuantity and price we define in the API
+  //  else returns alert - key not found at user alerts.. - and exits
   async function claimWithSignature() {
 
     document.getElementById("minusButton")?.setAttribute("disabled", "");
     document.getElementById("plusButton")?.setAttribute("disabled", "");
 
+    if(isSoundOn){
     const claimSoundSig = new Audio("/finger.wav");
     claimSoundSig.play();
+    }
     setAlert(`PREMIUM KEY CHECK..`);
    
     const signedPayloadReq = await fetch(`/api/generate-mint-signature`, {
@@ -213,14 +232,16 @@ const Home: NextPage = () => {
       body: JSON.stringify({
         address: address, mintQuantity: mintQuantity,
       }),
-    });       {/*dodao mintQuantity i prosledjujem ga sa address ka API*/}
+    });       {/*added mintQuantity to request - passing mintQuantity with user address to API*/}
 
     console.log(signedPayloadReq);
 
     if (signedPayloadReq.status === 400) {
       setAlert('KEY NOT FOUND!..USE REGULAR MINT OR MINT THE KEY FIRST..');
+      if(isSoundOn){
       const endClaimSoundSig2 = new Audio("/fail.wav");
       endClaimSoundSig2.play();
+      }
 
       document.getElementById("minusButton")?.removeAttribute("disabled");
       document.getElementById("plusButton")?.removeAttribute("disabled");
@@ -228,9 +249,11 @@ const Home: NextPage = () => {
       return;
     } else {
       try {
+        if(isSoundOn){
         const keyFoundSound = new Audio("/key.wav");
         keyFoundSound.play();
-        setAlert(`KEY FOUND!..MINTING ${mintQuantity} TANK(S) FOR ${(0.025*mintQuantity).toFixed(4)} ETH..PLEASE WAIT..`);
+        }
+        setAlert(`KEY FOUND!..MINTING ${mintQuantity} TANK(S) FOR ${(0.0005*mintQuantity).toFixed(4)} ETH..PLEASE WAIT..`);
         const signedPayload =
           (await signedPayloadReq.json()) as SignedPayload721WithQuantitySignature;
 
@@ -239,8 +262,11 @@ const Home: NextPage = () => {
         const nft = await signatureDrop?.signature.mint(signedPayload);
 
         setAlert(`SUCCESS!..${mintQuantity} WOTIFY TANK(S) MINTED WITH DISCOUNT!`);
+        editMintQuantity(1);
+        if(isSoundOn){
         const endClaimSoundSig = new Audio("/spaceship.wav");
         endClaimSoundSig.play();
+        }
 
        document.getElementById("minusButton")?.removeAttribute("disabled");
        document.getElementById("plusButton")?.removeAttribute("disabled");
@@ -248,8 +274,10 @@ const Home: NextPage = () => {
       } catch (error: any) {
         console.log(error?.message);
         setAlert(`FAILED TXN!..REJECTED BY USER, SHORT FUNDS, SOLD OUT..RETRY?`);
+        if(isSoundOn){
         const endClaimSoundSig3 = new Audio("/fail.wav");
         endClaimSoundSig3.play();
+        }
 
         document.getElementById("minusButton")?.removeAttribute("disabled");
         document.getElementById("plusButton")?.removeAttribute("disabled");
@@ -257,6 +285,23 @@ const Home: NextPage = () => {
     }
   
   }
+
+  //  toggles sound on the soundButton click - always plas the sound
+  function changeValueForSoundHook(){
+    const claimSoundToggler = new Audio("/finger.wav");
+    claimSoundToggler.play();
+    setSound(!isSoundOn)
+    
+      document.getElementById("soundText1")?.animate([{opacity: 0}, {opacity: 1}], {duration: 500, iterations: 2 });
+      document.getElementById("soundText2")?.animate([{opacity: 0}, {opacity: 1}], {duration: 500, iterations: 2 }); 
+    
+
+
+    return;
+  }
+
+
+
 
   {/*MINTER..............................................................................*/}
 
@@ -271,6 +316,15 @@ const Home: NextPage = () => {
       </p>
       {/*new - metadata and nfts*/}
       {/*<img src={metadata?.image} width="20" />*/}
+
+
+
+      {/*sound buttons - toggles DApp sounds on and off*/}
+      <div className={styles.soundControl}>
+      <span className={styles.soundBoxText} id="soundText1">ON | OFF 🎧</span>
+      <button className={styles.soundButton} onClick={() => changeValueForSoundHook()} id="soundButton">⬤</button>
+      <span className={styles.soundBoxText} id="soundText2">ON | OFF 🎧</span>
+      </div>
       
 
     {/*walllet, messages and claimed so far*/}
@@ -285,7 +339,7 @@ const Home: NextPage = () => {
         }
       
 
-      {/*alerts display - my css*/}
+      {/*user alerts-messages display*/}
       <div>
       {
         address?(
@@ -396,7 +450,7 @@ const Home: NextPage = () => {
               <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
             ):(
               <p className={styles.priceBelowButton}>
-                Total mint amount : {(mintQuantity * 0.05).toFixed(4)} ETH + fee 
+                Total mint amount : {(mintQuantity * 0.001).toFixed(4)} ETH + fee 
               </p>
             )
           }
@@ -445,7 +499,7 @@ const Home: NextPage = () => {
               <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
             ):(
               <p className={styles.priceBelowButton}>
-                Total mint amount : {(mintQuantity * 0.025).toFixed(4)} ETH + fee 
+                Total mint amount : {(mintQuantity * 0.0005).toFixed(4)} ETH + fee 
               </p>
             )
           }
