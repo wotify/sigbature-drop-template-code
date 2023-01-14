@@ -34,9 +34,13 @@ const Home: NextPage = () => {
 
 
   //  hook for DApp sounds toggle
-  //  initial state is true
+  //  initial variable state is true
   //  state toggles on soundButton click via changeValueForSoundHook function
+  //  if statements in mint functions and qt functions are toggling sound on and off
   const[isSoundOn, setSound] = useState(true);
+
+
+  const[onOrOffWord, setWord] = useState("ON");
 
 
    //  Loader for claimed supply and unclaimed supply from your signature-drop contract
@@ -54,7 +58,7 @@ const Home: NextPage = () => {
     }, [claimedSupply?.toNumber()])
 
 
-    //  hook for css 4 dots at the page bottom animation
+    //  hook for css 4 dots at the page bottom animation..triggers only once at DApp mount
     useEffect(() => {
       document.getElementById("dot1")?.animate([{opacity: 1}, {opacity: 0.1}], {duration: 4000, iterations: Infinity });
       setTimeout(() => {
@@ -72,6 +76,9 @@ const Home: NextPage = () => {
     useEffect(() => { 
         document.getElementById("quantityAddressTrue")?.animate([{opacity: 0}, {opacity: 1}], {duration: 6000, iterations: 1 });
         document.getElementById("quantityAddressFalse")?.animate([{opacity: 0}, {opacity: 1}], {duration: 6000, iterations: 1 });
+        document.getElementById("soundControl")?.animate([{opacity: 0}, {opacity: 1}], {duration: 6000, iterations: 1 });
+        document.getElementById("soundControlNoAddress")?.animate([{opacity: 0}, {opacity: 1}], {duration: 6000, iterations: 1    
+        });
     },[address])
 
 
@@ -292,10 +299,14 @@ const Home: NextPage = () => {
     claimSoundToggler.play();
     setSound(!isSoundOn)
     
-      document.getElementById("soundText1")?.animate([{opacity: 0}, {opacity: 1}], {duration: 500, iterations: 2 });
-      document.getElementById("soundText2")?.animate([{opacity: 0}, {opacity: 1}], {duration: 500, iterations: 2 }); 
+    document.getElementById("soundText1")?.animate([{opacity: 0}, {opacity: 1}], {duration: 600, iterations: 3 });
+    document.getElementById("soundText2")?.animate([{opacity: 0}, {opacity: 1}], {duration: 600, iterations: 3 }); 
     
-
+    if(!isSoundOn){
+      setWord("ON");
+    }else{
+      setWord("OFF");
+    }
 
     return;
   }
@@ -320,11 +331,19 @@ const Home: NextPage = () => {
 
 
       {/*sound buttons - toggles DApp sounds on and off*/}
-      <div className={styles.soundControl}>
-      <span className={styles.soundBoxText} id="soundText1">ON | OFF 🎧</span>
+      {
+      address?(
+      <div className={styles.soundControl} id="soundControl">
+      <span className={styles.soundBoxText} id="soundText1">{onOrOffWord}{" "}🎧</span>
       <button className={styles.soundButton} onClick={() => changeValueForSoundHook()} id="soundButton">⬤</button>
-      <span className={styles.soundBoxText} id="soundText2">ON | OFF 🎧</span>
-      </div>
+      <span className={styles.soundBoxText} id="soundText2">🎧{" "}{onOrOffWord}</span>
+      </div>):(
+        <div id="soundControlNoAddress">
+          <span className={styles.soundBoxWelcome}>⭒ ⭒ WELCOME ★ COMMANDER ⭒ ⭒</span>
+          {/*<img src={metadata?.image} alt="collection logo image/gif" width={15}></img>  --  collection logo*/}
+        </div>
+      )
+      }
       
 
     {/*walllet, messages and claimed so far*/}
@@ -361,7 +380,7 @@ const Home: NextPage = () => {
               </code>
           ):(
               <code>
-              <span>TANKS MINTED SO FAR :{" "}LOADING CONTRACT DATA..</span>
+              TANKS MINTED SO FAR :<span className={styles.claimedSoFarNumber}>{" "}LOADING CONTRACT DATA..</span>
               </code>
           )
         }

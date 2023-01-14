@@ -23,10 +23,17 @@
 }
 
 .soundBoxText {
-  color: #fff;
+  color: #FFA500;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 1px;
+}
+
+.soundBoxWelcome {
+  color: #FFA500;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
 }
 
 .quantityNumber {
@@ -155,7 +162,7 @@
 .quantityContainer{
   display: inline-block;
   margin-top: 10px;
-  opacity: 1;
+  
 }
 
 .soundControl {
