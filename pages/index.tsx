@@ -39,7 +39,9 @@ const Home: NextPage = () => {
   //  if statements in mint functions and qt functions are toggling sound on and off
   const[isSoundOn, setSound] = useState(true);
 
-
+  //  initial state is "ON" for the state of the sound analogue with the hook above
+  //  sound buttons are calling the changeValueForSoundHook func
+  //  inside that func setWord conditionally changes between "ON" and "OFF"
   const[onOrOffWord, setWord] = useState("ON");
 
 
@@ -182,6 +184,8 @@ const Home: NextPage = () => {
   async function claim() {
 
     //  grabs the sound from the public folder and plays it
+    //  if condition is true else no sound is played
+    //  same logic in all places where sound should be played in qty and mint functions
     if(isSoundOn){
     const claimSound = new Audio("/finger.wav");
     claimSound.play();
@@ -197,6 +201,11 @@ const Home: NextPage = () => {
       const tx = await signatureDrop?.claim(mintQuantity);
       setAlert(`SUCCESS!..${mintQuantity} WOTIFY TANK(S) MINTED!`);
       editMintQuantity(1);
+      //  display OpenSea info -- where to find newly minted NFTs
+      setTimeout(() => {
+        setAlert("VIEW NEW TANKS ON OPENSEA..LOG IN WITH SAME ADDRESS..");
+      },8000);
+
       if(isSoundOn){
       const endClaimSound = new Audio("/spaceship.wav");
       endClaimSound.play();
@@ -270,6 +279,11 @@ const Home: NextPage = () => {
 
         setAlert(`SUCCESS!..${mintQuantity} WOTIFY TANK(S) MINTED WITH DISCOUNT!`);
         editMintQuantity(1);
+        //  display OpenSea info -- where to find new NFTs
+        setTimeout(() => {
+          setAlert("VIEW NEW TANKS ON OPENSEA..LOG IN WITH SAME ADDRESS..");
+        },8000);
+
         if(isSoundOn){
         const endClaimSoundSig = new Audio("/spaceship.wav");
         endClaimSoundSig.play();
@@ -293,7 +307,10 @@ const Home: NextPage = () => {
   
   }
 
-  //  toggles sound on the soundButton click - always plas the sound
+
+  //  toggles sound on the soundButton click
+  //  toggles isSoundOn var between true aand false
+  //  side effect -- sets "ON" or "OFF" for rendering inside the sound control div
   function changeValueForSoundHook(){
     const claimSoundToggler = new Audio("/finger.wav");
     claimSoundToggler.play();
@@ -307,14 +324,11 @@ const Home: NextPage = () => {
     }else{
       setWord("OFF");
     }
-
     return;
   }
 
 
-
-
-  {/*MINTER..............................................................................*/}
+  {/*...........MINTER............*/}
 
   return (
     <div className={styles.container}>
@@ -322,15 +336,18 @@ const Home: NextPage = () => {
       <h1 className={styles.h1}>Wotify Minting DApp</h1>    {/*title*/}
       {/*description*/}
       <p className={styles.describe}>     
-        <b>Wotify Premium Key</b> is a free-to-mint community and benefits key that gives you a 50% minting discount for  Wotify collection and more benefits and discounts in future collections.{" "}
-        <a href="https://tokenrolla.com/wotify-premium-key" target="_blank" rel="noreferrer">Mint the Key</a>{" "}first or mint a Tank using the regular mint button.
+        <b>Wotify Premium Key</b> is a free-to-mint community and benefits key that gives you a 50% minting discount for  Wotify 
+         collection and more benefits and discounts in future collections.{" "}
+        <a href="https://linktr.ee/wotify_nfts" target="_blank" rel="noreferrer">Mint the Key</a>{" "}first or mint a 
+         Tank using the regular mint button.
       </p>
-      {/*new - metadata and nfts*/}
+
+
+      {/*new - metadata and nfts - display drop logo example*/}
       {/*<img src={metadata?.image} width="20" />*/}
 
 
-
-      {/*sound buttons - toggles DApp sounds on and off*/}
+      {/*sound buttons/box/block - toggles DApp sounds on and off*/}
       {
       address?(
       <div className={styles.soundControl} id="soundControl">
@@ -339,16 +356,16 @@ const Home: NextPage = () => {
       <span className={styles.soundBoxText} id="soundText2">🎧{" "}{onOrOffWord}</span>
       </div>):(
         <div id="soundControlNoAddress">
-          <span className={styles.soundBoxWelcome}>⭒ ⭒ WELCOME ★ COMMANDER ⭒ ⭒</span>
+          <span className={styles.soundBoxWelcome}>COMING ★ SOON</span>
           {/*<img src={metadata?.image} alt="collection logo image/gif" width={15}></img>  --  collection logo*/}
         </div>
       )
       }
       
 
-    {/*walllet, messages and claimed so far*/}
+    {/*walllet address, messages to the user and claimed so far aka contract metadata*/}
     <div className={styles.contractAndAppData}>
-      {/*connected wallet final*/}
+      {/*if user connected show address - otherwise show message*/}
         {
           address?(
             <code>CONNECTED WALLET : {address}</code>
@@ -357,26 +374,25 @@ const Home: NextPage = () => {
           )
         }
       
-
       {/*user alerts-messages display*/}
+      {/*if there is address display messages, if not render welcome message*/}
       <div>
       {
         address?(
             <p><span className={styles.blinker}>▶</span><code>{userAlert}</code></p>
-            
         ):(
             <p><span className={styles.blinker}>▶</span><code>WELCOME!..CONNECT YOUR WALLET TO START MINTING..</code></p>
         )
       }     
       </div>
 
-
       {/*my version of "claimed so far" */}
-      
+      {/*if there is metadata show data else show loading metadata message*/}   
         {
           claimedSupply && unclaimedSupply ? (
               <code>
-              TANKS MINTED SO FAR :<span className={styles.claimedSoFarNumber}>{" "}{claimedSupply.toNumber()}{" | "}{claimedSupply.toNumber() + unclaimedSupply.toNumber()}</span>
+              TANKS MINTED SO FAR :<span className={styles.claimedSoFarNumber}>{" "}{claimedSupply.toNumber()}{" | "} 
+              {claimedSupply.toNumber() + unclaimedSupply.toNumber()}</span>
               </code>
           ):(
               <code>
@@ -386,9 +402,8 @@ const Home: NextPage = () => {
         }
     </div>
 
-
-      
-      {/*input box
+   
+      {/*input box -- deprecated version of quantity box with input field
       {
       address?(
       <div className={styles.quantityContainer}>
@@ -404,8 +419,10 @@ const Home: NextPage = () => {
       </div>)}*/}
 
 
-         {/*set mint quantity box v2*/}
-         {
+      {/*set mint quantity box - new version*/}
+      {/*cleaner because user do not type anything*/}
+      {/*if address show whole and functional block - if not disable both buttons*/}
+      {
       address?(
       <div className={styles.quantityContainer} id="quantityAddressTrue">
         <span className={styles.quantityBoxText}>QUANTITY</span>
@@ -424,13 +441,8 @@ const Home: NextPage = () => {
       )
       } 
 
- 
 
-
-
-
-
-
+      {/*first mint card/box - standard mint*/}
       <div className={styles.nftBoxGrid}>
         <div className={styles.optionSelectBox}>
           <img src={`/blue_tank.png`} alt="wotify tank" className={styles.cardImg}/>
@@ -438,14 +450,15 @@ const Home: NextPage = () => {
           {/*title or sold out state if claimedSupply.toNumber() == 0*/}
           {
             unclaimedSupply?.toNumber() == 0?(
-              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
+              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className= 
+               {styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
             ):(
               <h2 className={styles.selectBoxTitle}>Mint</h2>
             )
           }
 
-
-          {/*mint detector*/}
+          {/*new mint detector*/}
+          {/*blinks after useEffect detects change of the claimedSupply variable*/}
           <p className={styles.mintDetectorText}>
             new mint
             <img src="/blue_bulb3.png" alt="blue light bilb" width={28} id="card1" className={styles.mintAlertImage}></img>
@@ -453,7 +466,7 @@ const Home: NextPage = () => {
           </p>
           
           <p className={styles.selectBoxDescription}>
-             Tank price 0.05 ETH | 5 per transaction | unlimited per address | max supply 30k | Ethereum
+             Tank price 0.05 ETH | 5 Tanks per transaction | unlimited Tanks per address | max supply 30k | Ethereum
           </p>
 
           <Web3Button
@@ -463,21 +476,22 @@ const Home: NextPage = () => {
           >
             MINT
           </Web3Button>
+
           {/*if uclaimedSupply == 0 show "sold out" text*/}
           {
             unclaimedSupply?.toNumber() == 0?(
-              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
+              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className= 
+               {styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a>
+              </p>
             ):(
               <p className={styles.priceBelowButton}>
                 Total mint amount : {(mintQuantity * 0.001).toFixed(4)} ETH + fee 
               </p>
             )
-          }
-
-          
+          } 
         </div>
 
-
+        {/*second mint card/box - mint with signature*/}
         <div className={styles.optionSelectBox}>
           <img
             src={`/blue_tank_wkey.png`}
@@ -488,13 +502,15 @@ const Home: NextPage = () => {
           {/*title or sold out state if claimedSupply.toNumber() == 0*/}
           {
             unclaimedSupply?.toNumber() == 0?(
-              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
+              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className= 
+               {styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a>
+              </p>
             ):(
               <h2 className={styles.selectBoxTitle}>Mint With Key</h2>
             )
           }
 
-          {/*mint detector*/}
+          {/*new mint detector*/}
           <p className={styles.mintDetectorText}>
             new mint
             <img src="/blue_bulb3.png" alt="blue light bulb" width={28} id="card2" className={styles.mintAlertImage} ></img>
@@ -502,7 +518,7 @@ const Home: NextPage = () => {
           </p>
       
           <p className={styles.selectBoxDescription}>
-          <b>- 50%</b> | Tank price 0.025 ETH | 5 per transaction | unlimited per address | max supply 30k | Ethereum
+          <b>- 50%</b> | Tank price 0.025 ETH | 5 Tanks per transaction | unlimited Tanks per address | max supply 30k | Ethereum
           </p>
 
           <Web3Button
@@ -512,25 +528,24 @@ const Home: NextPage = () => {
           >
             MINT WITH KEY
           </Web3Button>
+
           {/*if uclaimedSupply == 0 show "sold out" text*/}
           {
             unclaimedSupply?.toNumber() == 0?(
-              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className={styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
+              <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className= 
+               {styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a>
+              </p>
             ):(
               <p className={styles.priceBelowButton}>
                 Total mint amount : {(mintQuantity * 0.0005).toFixed(4)} ETH + fee 
               </p>
             )
-          }
-
-
-         
+          }         
         </div>
       </div>
       
       
-
-      {/*thirdweb logo*/}
+      {/*thirdweb link and small css animation - 4 blinking dots*/}
       <p className={styles.thirdwebLink}>
         powered by <a href="https://thirdweb.com/" target="_blank" rel="noreferrer">thirdweb</a><br/><br/>
         <span className={styles.dot1} id="dot1"></span>
@@ -538,9 +553,6 @@ const Home: NextPage = () => {
         <span className={styles.dot3} id="dot3"></span>
         <span className={styles.dot4} id="dot4"></span>
       </p>
-
-
-
 
     </div>
   );
