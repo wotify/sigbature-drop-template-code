@@ -25,6 +25,7 @@ all questions: wotify@tokenrolla.com or dm at Twitter @wotify_NFTs
 
 ## How to use the repo for your collection/signature-drop
 
+
 If you decide to use this repo, more or less you should follow these steps:
 
 Enter your signature-drop addres at 2 files: index.tsx and generate-mint-signature.ts
@@ -50,6 +51,8 @@ In app.tsx enter the appropriate chain id: ChainId.your_chain_id  ..chain where 
 16 deploy your new DApp through Vercel..it's easy and you get CI/CD..
 
 You can see wotify DApp in action [here](https://sigbature-drop-template-code.vercel.app/)
+
+You can use the standard mint button to test the DApp. Just send some Goerly ETH to your Metamask and switch the network to Goerly...I deployed one test signature-drop collection on Goerly...
 
 all good ✌
 
