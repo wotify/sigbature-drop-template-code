@@ -1,3 +1,62 @@
+## Wotify NFTs Minting DApp - Template code for thirdweb's signature-drop contract
+
+Fully working DApp/code is provided by the thirdweb.
+You can find the original thirweb's code and repo [here](https://github.com/thirdweb-example/signature-drop)
+
+You can find my version of the original repo [here](https://github.com/wotify/sigbature-drop-template-code)
+
+Btw, the name of my repo should have bin * signature-drop-template-code * and not the * sigbature-drop-template-code * as it stads now at wotify nfts GitHub home, but I probabbly type too fast for...
+
+As I said above the fully operational and working DApp is provided bu the thirdweb, and I added a little bit more functionallity and basic styling. The original code has mint quantity set to 1 for both mint buttons by default so I added the quantity buttons in order to enable more then 1 mint per 1 transaction. You can change in code in the index.tsx the max mint quantity to another desired max value...That was the main goal...
+
+Summary -- I added:
+1 mint quantity + and - buttons
+2 sounds
+3 sound control - toggle DApp sound on and off button
+4 new mint detector - 2 light bulbs - should blink when you mint and when someone else mints
+5 cool and simple css animations and transitions for some page elements on rendering
+6 css styling
+7 dynamic alerts for the user describing every action on page user takes, embeded in the page -- not classic browser alerts
+8 dynamic mint price info bellow mint buttons and in user alerts
+9 more basic logic for better UX
+10 in the future...third mint button for 1 FREE mint per collection with special key -- key will be signature-drop probabbly or NFT drop
+
+all questions: wotify@tokenrolla.com or dm at Twitter @wotify_NFTs
+
+## How to use the repo for your collection/signature-drop
+
+If you decide to use this repo, more or less you should follow these steps:
+
+Enter your signature-drop addres at 2 files: index.tsx and generate-mint-signature.ts
+Enter your key-nft edition-drop address in generate-mint-signature.ts
+In app.tsx enter the appropriate chain id: ChainId.your_chain_id  ..chain where your signature-drop is deployed..
+
+1 go to repo [here](https://github.com/wotify/sigbature-drop-template-code) 
+2 click on ..Use this template..
+3 Create a new repository
+4 you get your new repo with no commits inside..just the initial commit
+5 clone the new repo on your lokal pc
+6 cd into project folder
+7 create new file named .env.local
+8 enter your private key in .env.local
+8/1 make sure that you have the newest Microsoft Visual Studio installed and also C++ desktop dev tools pack
+9 install all dependencies with command: npm install
+10 if there is some errors read and npm install what is missing
+11 make sure that you have the latest version of thirdweb's sdk installed by
+12 running: npm install @thirdweb-dev/sdk @thirdweb-dev/react
+13 for the dev server run: yarn dev
+14 that should be it
+15 sign up at Vercel with GitHub
+16 deploy your new DApp through Vercel..it's easy and you get CI/CD..
+
+You can see wotify DApp in action [here](https://sigbature-drop-template-code.vercel.app/)
+
+all good ✌
+
+Below,  you can find the original thirdweb's repo description for more details...
+
+
+
 # Signature Drop
 
 This example shows how you can use the [Signature Drop Pre-Built Contract](https://portal.thirdweb.com/pre-built-contracts/signature-drop) to
