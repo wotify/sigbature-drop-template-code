@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThirdwebProvider desiredChainId={activeChainId}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Wotify Minting DApp</title>
+        <title>Wotify NFT Collection - Mint a Tank - Inspired by World of Tanks</title>
       </Head>
       <Component {...pageProps} />
       <ThirdwebGuideFooter />
