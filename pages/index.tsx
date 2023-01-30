@@ -10,6 +10,13 @@ import { HexColor } from "@thirdweb-dev/sdk/dist/declarations/src/core/schema/sh
 
 const signatureDropAddress = "0x96262268e1725D35771BA70dab8f75dE2B6FDa31";  {/*your new signature-drop contract address*/}
 
+ //  constants for easy collection and price switch
+ const dropKeyWord : string = "Tank";
+ const dropKeyWordCaps : string = "TANK";
+ const mintPrice : number = 0.001;
+ const discountCoef : number = 0.5;
+ const chainTicker : string = "ETH";
+
 const Home: NextPage = () => {
 
   const address = useAddress();
