@@ -554,8 +554,8 @@
     margin-top: 16px;
   }
 
-  
+
   .card {
-    width: calc(100% - 20px);
+    width: calc(50% - 5px);
   }
 }
