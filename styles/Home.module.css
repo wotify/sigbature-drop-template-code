@@ -434,6 +434,10 @@
 
 .metadataCards {
   display: flex;
+
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 
 .card {
@@ -548,5 +552,10 @@
   .optionSelectBox {
     width: 90%;
     margin-top: 16px;
+  }
+
+  
+  .card {
+    width: calc(100% - 20px);
   }
 }
