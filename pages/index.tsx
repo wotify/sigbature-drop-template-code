@@ -336,6 +336,7 @@ const Home: NextPage = () => {
   }
 
 
+
   {/*...........MINTER............*/}
 
   return (
