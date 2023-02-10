@@ -205,13 +205,13 @@ const Home: NextPage = () => {
 
     try {
       //  below, input/hardcode price from claim Conditions/thirdweb dashboard and chain currencu..ETH..MATIC..etc..
-      setAlert(`MINTING ${mintQuantity} TANK(S) FOR ${(0.001*mintQuantity).toFixed(4)} ETH..PLEASE WAIT..`);
+      setAlert(`MINTING ${mintQuantity} TANK(S) FOR ${(0.001*mintQuantity).toFixed(4)} ETH..CONFIRM PLEASE..`);
       const tx = await signatureDrop?.claim(mintQuantity);
       setAlert(`SUCCESS!..${mintQuantity} WOTIFY TANK(S) MINTED!`);
       editMintQuantity(1);
       //  display OpenSea info -- where to find newly minted NFTs
       setTimeout(() => {
-        setAlert("VIEW NEW TANKS ON OPENSEA..LOG IN WITH SAME ADDRESS..");
+        setAlert("TO VIEW NEW TANK(S) LOG IN TO OPENSEA WITH THE SAME ADDRESS..");
       },8000);
 
       if(isSoundOn){
@@ -277,7 +277,7 @@ const Home: NextPage = () => {
         const keyFoundSound = new Audio("/key.wav");
         keyFoundSound.play();
         }
-        setAlert(`KEY FOUND!..MINTING ${mintQuantity} TANK(S) FOR ${(0.0005*mintQuantity).toFixed(4)} ETH..PLEASE WAIT..`);
+        setAlert(`KEY FOUND!..MINTING ${mintQuantity} TANK(S) FOR ${(0.0005*mintQuantity).toFixed(4)} ETH..CONFIRM PLEASE..`);
         const signedPayload =
           (await signedPayloadReq.json()) as SignedPayload721WithQuantitySignature;
 
@@ -289,7 +289,7 @@ const Home: NextPage = () => {
         editMintQuantity(1);
         //  display OpenSea info -- where to find new NFTs
         setTimeout(() => {
-          setAlert("VIEW NEW TANKS ON OPENSEA..LOG IN WITH SAME ADDRESS..");
+          setAlert("TO VIEW NEW TANK(S) LOG IN TO OPENSEA WITH THE SAME ADDRESS..");
         },8000);
 
         if(isSoundOn){
