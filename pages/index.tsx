@@ -62,7 +62,8 @@ const Home: NextPage = () => {
     useEffect(() => {
       setTimeout(() => {
         document.getElementById("card1")?.animate([{opacity: 0.2}, {opacity: 1}], {duration: 1500, iterations: 6 });
-        document.getElementById("card2")?.animate([{opacity: 0.2}, {opacity: 1}], {duration: 1500, iterations: 6 }); 
+        document.getElementById("card2")?.animate([{opacity: 0.2}, {opacity: 1}], {duration: 1500, iterations: 6 });
+        document.getElementById("mintedCard")?.animate([{opacity: 0}, {opacity: 1}], {duration: 1500, iterations: 6 }); 
       }, 3000);
     }, [claimedSupply?.toNumber()])
 
@@ -362,17 +363,85 @@ const Home: NextPage = () => {
       <button className={styles.soundButton} onClick={() => changeValueForSoundHook()} id="soundButton">⬤</button>
       <span className={styles.soundBoxText} id="soundText2">🎧{" "}{onOrOffWord}</span>
       </div>):(
-        <div id="soundControlNoAddress">
+        <div className={styles.soundControl} id="soundControlNoAddress">
           <span className={styles.soundBoxWelcome}>COMING ★ SOON</span>
           {/*<img src={metadata?.image} alt="collection logo image/gif" width={15}></img>  --  collection logo*/}
         </div>
       )
       }
+
+
+    {/*metadata cards*/}
+    <div className={styles.metadataCards}>
+
+      {/*address*/}
+      <div className={styles.card}>
+            <h2>WALLET</h2>
+            {/*message or if there is an address first 5 and last 4 elements of address array - short=nice*/}
+        {
+          address?(
+            <p>{address[0]}{address[1]}{address[2]}{address[3]}{address[4]}....{address[address.length-4]}  
+             {address[address.length-3]}{address[address.length-2]}{address[address.length-1]}</p>
+          ):(
+            <p>NOT CONNECTED!</p>
+          )
+        }
+      </div>
+      
+      {/*minted so far*/}
+      <div className={styles.card}>
+        <h2>MINTED SO FAR</h2>
+        {
+          claimedSupply && unclaimedSupply?(
+            <p id="mintedCard"><span className={styles.claimedSoFarNumber}>{claimedSupply.toNumber()}</span> OF <span className= 
+             {styles.claimedSoFarNumber}>{claimedSupply.toNumber() + unclaimedSupply.toNumber()}</span></p>
+          ):(
+            <p>LOADING...</p>
+          )
+        }
+      </div>
+
+      {/*collection logo*/}
+      <div className={styles.card}>
+        {
+          !loadingMetadata?(
+            <img src={metadata?.image} alt="collection logo"/>
+          ):(
+            <p>LOADING...</p>
+          )
+        }
+      </div>
+
+      {/*collection description*/}
+      <div className={styles.card}>
+        <h2>DESCRIPTION</h2>
+        {
+          !loadingMetadata?(
+            <p>{metadata?.description}</p>
+          ):(
+            <p>LOADING...</p>
+          )
+        }
+      </div>
+
+      {/*collection symbol*/}
+      <div className={styles.card}>
+        <h2>TOKEN SYMBOL</h2>
+        {
+          !loadingMetadata?(
+            <p><span className={styles.claimedSoFarNumber}>{metadata?.symbol}</span></p>
+          ):(
+            <p>LOADING...</p>
+          )
+        }
+      </div>
+    </div>
       
 
     {/*walllet address, messages to the user and claimed so far aka contract metadata*/}
     <div className={styles.contractAndAppData}>
       {/*if user connected show address - otherwise show message*/}
+      {/*
         {
           address?(
             <code>CONNECTED WALLET : {address}</code>
@@ -380,21 +449,38 @@ const Home: NextPage = () => {
             <code>CONNECTED WALLET : WAITING..CONNECT YOUR WALLET..</code>
           )
         }
-      
+      */}
+
       {/*user alerts-messages display*/}
       {/*if there is address display messages, if not render welcome message*/}
+      {/*}
       <div>
       {
         address?(
-            <p><span className={styles.blinker}>▶</span><code>{userAlert}</code></p>
+            <p className={styles.myAlerts}><span className={styles.blinker}>▶</span><code>{userAlert}</code></p>
         ):(
-            <p><span className={styles.blinker}>▶</span><code>WELCOME!..CONNECT YOUR WALLET TO START MINTING..</code></p>
+            <p className={styles.myAlerts}><span className={styles.blinker}>▶</span><code>WELCOME!..CONNECT WALLET TO START 
+               MINTING..</code></p>
         )
       }     
       </div>
+    */}
+
+
+      <div className={styles.tvScreen}>
+        {
+          address?(
+            <p className={styles.tvScreenText}>{userAlert}<span className={styles.cursor}>▮</span></p>
+          ):(
+            <p className={styles.tvScreenText}>WELCOME!...CONNECT WALLET TO START MINTING!...<span className={styles.cursor}>▮ 
+             </span></p>
+          )
+        }
+      </div>
 
       {/*my version of "claimed so far" */}
-      {/*if there is metadata show data else show loading metadata message*/}   
+      {/*if there is metadata show data else show loading metadata message*/}
+      {/*} 
         {
           claimedSupply && unclaimedSupply ? (
               <code>
@@ -407,6 +493,7 @@ const Home: NextPage = () => {
               </code>
           )
         }
+      */}
     </div>
 
    
@@ -453,6 +540,8 @@ const Home: NextPage = () => {
       <div className={styles.nftBoxGrid}>
         <div className={styles.optionSelectBox}>
           <img src={`/blue_tank.png`} alt="wotify tank" className={styles.cardImg}/>
+
+
           
           {/*title or sold out state if claimedSupply.toNumber() == 0*/}
           {
@@ -560,6 +649,7 @@ const Home: NextPage = () => {
         <span className={styles.dot3} id="dot3"></span>
         <span className={styles.dot4} id="dot4"></span>
       </p>
+
 
     </div>
   );
