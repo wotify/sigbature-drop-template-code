@@ -35,7 +35,7 @@
     background-color: #091a0d;
   }
   50% {
-    background-color: #390f39;
+    background-color: #3c3929;
   }
   100% {
     background-color: #091a0d;
@@ -45,7 +45,7 @@
 .tvScreenText {
   padding: 10px;
   text-align: center;
-  color: #fff;
+  color: #FFA500;
   font-size: 10px;
   font-weight: bold;
   letter-spacing: 1px;
