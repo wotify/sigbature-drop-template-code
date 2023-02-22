@@ -1,5 +1,5 @@
-import { useAddress, useContract, Web3Button, useClaimedNFTSupply, useUnclaimedNFTSupply, ThirdwebNftMedia, useContractMetadata, useNFTs } from "@thirdweb-dev/react";
-import { ClaimCondition, ClaimOptions, SignedPayload721WithQuantitySignature } from "@thirdweb-dev/sdk";
+import { useAddress, useContract, Web3Button, useClaimedNFTSupply, useUnclaimedNFTSupply, ThirdwebNftMedia, useContractMetadata, useNFTs, ChainId } from "@thirdweb-dev/react";
+import { CHAIN_ID_TO_NAME, ClaimCondition, ClaimOptions, SignedPayload721WithQuantitySignature } from "@thirdweb-dev/sdk";
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect, useRef } from "react";
@@ -12,10 +12,14 @@ const signatureDropAddress = "0x96262268e1725D35771BA70dab8f75dE2B6FDa31";  {/*y
 
  //  constants for easy collection and price switch
  const dropKeyWord : string = "Tank";
+ const dropKeyWordPlural : string = "Tanks";
  const dropKeyWordCaps : string = "TANK";
+ const dropKeyWordPluralCaps : string = "TANKS";
  const mintPrice : number = 0.001;
  const discountCoef : number = 0.5;
  const chainTicker : string = "ETH";
+ const overviewCard : string[] = ["ETHEREUM", "2222 MAX", "TICKER SPTST", "10 TRAITS", "350 .PNGs",
+ "0.001 ETH", "50% OFF KEY"];
 
 const Home: NextPage = () => {
 
@@ -335,19 +339,33 @@ const Home: NextPage = () => {
     return;
   }
 
+  // overview card code
+  const[currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentIndex((currentIndex + 1) % overviewCard.length)
+    }, 5000);
+    return () => clearInterval(intervalId);
+  },[currentIndex])
+  
+  
+
 
 
   {/*...........MINTER............*/}
 
   return (
     <div className={styles.container}>
+
       {/* Top Section */}
-      <h1 className={styles.h1}>Wotify Minting DApp</h1>    {/*title*/}
+      <h1 className={styles.h1}>WOTIFY <span className={styles.titleEnd}>MINTING DAPP</span></h1>    {/*title*/}
+      <div className={styles.divider}></div>
       {/*description*/}
       <p className={styles.describe}>     
-        <b>Wotify Premium Key</b> is a free-to-mint community and benefits key that gives you a 50% minting discount for  Wotify 
-         collection and more benefits and discounts in future collections.{" "}
-        <a href="https://linktr.ee/wotify_nfts" target="_blank" rel="noreferrer">Mint the Key</a>{" "}first or mint a 
+        <em>Wotify Premium Key</em> is a free-to-mint community key that grants you a 50% minting discount for the Wotify 
+         collection and more benefits in the future. You can{" "}
+        <a href="https://linktr.ee/wotify_nfts" target="_blank" rel="noreferrer">mint the Key</a>{" "}first, or just mint a 
          Tank using the regular mint button.
       </p>
 
@@ -391,7 +409,7 @@ const Home: NextPage = () => {
       
       {/*minted so far*/}
       <div className={styles.card}>
-        <h2>MINTED SO FAR</h2>
+        <h2>MINTED</h2>
         {
           claimedSupply && unclaimedSupply?(
             <p id="mintedCard"><span className={styles.claimedSoFarNumber}>{claimedSupply.toNumber()}</span> OF <span className= 
@@ -415,7 +433,7 @@ const Home: NextPage = () => {
 
       {/*collection description*/}
       <div className={styles.card}>
-        <h2>DESCRIPTION</h2>
+
         {
           !loadingMetadata?(
             <p>{metadata?.description}</p>
@@ -424,18 +442,14 @@ const Home: NextPage = () => {
           )
         }
       </div>
-
-      {/*collection symbol*/}
+      
+      {/*collection overview hooks version*/}
       <div className={styles.card}>
-        <h2>TOKEN SYMBOL</h2>
-        {
-          !loadingMetadata?(
-            <p><span className={styles.claimedSoFarNumber}>{metadata?.symbol}</span></p>
-          ):(
-            <p>LOADING...</p>
-          )
-        }
+
+        <p>{overviewCard[currentIndex]}</p>
       </div>
+
+
     </div>
       
 
@@ -473,7 +487,7 @@ const Home: NextPage = () => {
           address?(
             <p className={styles.tvScreenText}>{userAlert}<span className={styles.cursor}>▮</span></p>
           ):(
-            <p className={styles.tvScreenText}>WELCOME!...CONNECT WALLET TO START MINTING!...<span className={styles.cursor}>▮ 
+            <p className={styles.tvScreenText}>WELCOME!...CONNECT YOUR WALLET TO START MINTING!...<span className={styles.cursor}>▮ 
              </span></p>
           )
         }
@@ -550,7 +564,7 @@ const Home: NextPage = () => {
               <p className={styles.soldOutText}>SOLD OUT ▶ BUY A TANK ON <a href="https://opensea.io/Wotify-NFTs" className= 
                {styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a></p>
             ):(
-              <h2 className={styles.selectBoxTitle}>Mint</h2>
+              <h2 className={styles.selectBoxTitle}>MINT</h2>
             )
           }
 
@@ -603,7 +617,7 @@ const Home: NextPage = () => {
                {styles.linkBelowButton} target="_blank" rel="noreferrer">OPENSEA</a>
               </p>
             ):(
-              <h2 className={styles.selectBoxTitle}>Mint With Key</h2>
+              <h2 className={styles.selectBoxTitle}>MINT WITH KEY</h2>
             )
           }
 
