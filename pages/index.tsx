@@ -37,6 +37,8 @@ const Home: NextPage = () => {
   const{data: nfts, isLoading} = useNFTs(signatureDrop);
   const{data: metadata, isLoading: loadingMetadata} = useContractMetadata(signatureDrop);
 
+  
+
 
   //  hook for alerts DApp displays to the users..next to the blinking triangle
   //  located in both claim functions and increaseMintQuantity/decreaseMintQuantity...
