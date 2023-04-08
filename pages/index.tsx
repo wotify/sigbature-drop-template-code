@@ -36,8 +36,8 @@ const Home: NextPage = () => {
   //  conecting to NFTs - use this to display contract's metadata and your nfts
   const{data: nfts, isLoading} = useNFTs(signatureDrop);
   const{data: metadata, isLoading: loadingMetadata} = useContractMetadata(signatureDrop);
-
   
+
 
 
   //  hook for alerts DApp displays to the users..next to the blinking triangle
@@ -366,7 +366,7 @@ const Home: NextPage = () => {
       {/*description*/}
       <p className={styles.describe}>     
         <em>Wotify Premium Key</em> is a free-to-mint community key that grants you a 50% minting discount for the Wotify 
-         collection and more benefits in the future. You can{" "}
+         collection and more benefits in the future.{" "}
         <a href="https://linktr.ee/wotify_nfts" target="_blank" rel="noreferrer">mint the Key</a>{" "}first, or just mint a 
          Tank using the regular mint button.
       </p>
@@ -456,6 +456,7 @@ const Home: NextPage = () => {
       
 
     {/*walllet address, messages to the user and claimed so far aka contract metadata*/}
+
     <div className={styles.contractAndAppData}>
       {/*if user connected show address - otherwise show message*/}
       {/*
@@ -466,6 +467,7 @@ const Home: NextPage = () => {
             <code>CONNECTED WALLET : WAITING..CONNECT YOUR WALLET..</code>
           )
         }
+    
       */}
 
       {/*user alerts-messages display*/}
@@ -489,7 +491,8 @@ const Home: NextPage = () => {
           address?(
             <p className={styles.tvScreenText}>{userAlert}<span className={styles.cursor}>▮</span></p>
           ):(
-            <p className={styles.tvScreenText}>WELCOME!...CONNECT YOUR WALLET TO START MINTING!...<span className={styles.cursor}>▮ 
+            <p className={styles.tvScreenText}>WELCOME!...CONNECT YOUR WALLET TO START MINTING!...<span className=    
+             {styles.cursor}>▮ 
              </span></p>
           )
         }
@@ -545,7 +548,7 @@ const Home: NextPage = () => {
         <div className={styles.quantityContainer} id="quantityAddressFalse">
         <span className={styles.quantityBoxText}>OFF</span>
         <button className={styles.mainButton} disabled>-</button>
-        <span className={styles.quantityNumber}>Qty</span>
+        <span className={styles.quantityNumber}>QUANTITY</span>
         <button className={styles.mainButton} disabled>+</button>
         <span className={styles.quantityBoxText}>OFF</span>
       </div>
@@ -573,13 +576,13 @@ const Home: NextPage = () => {
           {/*new mint detector*/}
           {/*blinks after useEffect detects change of the claimedSupply variable*/}
           <p className={styles.mintDetectorText}>
-            new mint
+            mint sense
             <img src="/blue_bulb3.png" alt="blue light bilb" width={28} id="card1" className={styles.mintAlertImage}></img>
-            detector
+            mint sense
           </p>
           
           <p className={styles.selectBoxDescription}>
-             Tank price 0.05 ETH | 5 Tanks per transaction | unlimited Tanks per address | max supply 30k | Ethereum
+          <span className={styles.price}>0.05 ETH</span><br></br>max 5 per transaction | unlimited per address
           </p>
 
           <Web3Button
@@ -598,7 +601,7 @@ const Home: NextPage = () => {
               </p>
             ):(
               <p className={styles.priceBelowButton}>
-                Total mint amount : {(mintQuantity * 0.001).toFixed(4)} ETH + fee 
+                {(mintQuantity * 0.001).toFixed(4)} ETH + fee 
               </p>
             )
           } 
@@ -625,13 +628,13 @@ const Home: NextPage = () => {
 
           {/*new mint detector*/}
           <p className={styles.mintDetectorText}>
-            new mint
+            mint sense
             <img src="/blue_bulb3.png" alt="blue light bulb" width={28} id="card2" className={styles.mintAlertImage} ></img>
-            detector
+            mint sense
           </p>
       
           <p className={styles.selectBoxDescription}>
-          <b>- 50%</b> | Tank price 0.025 ETH | 5 Tanks per transaction | unlimited Tanks per address | max supply 30k | Ethereum
+          <span className={styles.price}>0.025 ETH</span><br></br>max 5 per transaction | unlimited per address
           </p>
 
           <Web3Button
@@ -650,7 +653,7 @@ const Home: NextPage = () => {
               </p>
             ):(
               <p className={styles.priceBelowButton}>
-                Total mint amount : {(mintQuantity * 0.0005).toFixed(4)} ETH + fee 
+                {(mintQuantity * 0.0005).toFixed(4)} ETH + fee 
               </p>
             )
           }         

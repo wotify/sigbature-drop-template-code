@@ -21,7 +21,7 @@
   height: 60px;
   background-color: #091a0d;
   border-radius: 10px;
-  box-shadow: 0px 0px 45px 0px #FFA500;
+  box-shadow: 0px 0px 150px 10px #f35d5d;
   overflow: auto;
 
   animation: background-animation 15s ease-in-out infinite;
@@ -35,7 +35,7 @@
     background-color: #091a0d;
   }
   50% {
-    background-color: #323027;
+    background-color: #1d1616;
   }
   100% {
     background-color: #091a0d;
@@ -83,9 +83,9 @@
 
 .quantityBoxText {
   color: #fff;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 3px;
 }
 
 .soundBoxText {
@@ -107,13 +107,15 @@
   color: #ff5edf;
   font-size: 16px;
   font-weight: 800;
+  letter-spacing: 2px;
 
 }
 
 .priceBelowButton {
-  font-size: 10px;
-  color:#ff5edf;
-  font-weight: 800;
+  font-size: 12px;
+  color: #f35d5d;
+  font-weight: 600;
+  text-transform: uppercase;
   letter-spacing: 2px;
   margin-top: 20px;
 }
@@ -187,8 +189,8 @@
 .mintDetectorText{
   text-transform: uppercase;
   font-weight: 800;
-  font-size: 10px;
-  letter-spacing: 2px;
+  font-size: 14px;
+  letter-spacing: 3px;
   color:#37d8ff;
 }
 
@@ -262,11 +264,11 @@
 
 .describe {
   max-width: 950px;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   font-weight: 600;
-  word-spacing: 3px;
-  
+  word-spacing: 4px;
+  text-transform: uppercase;
 }
 
 .describe > a {
@@ -402,18 +404,27 @@
   margin-top: 8px;
   margin-bottom: 8px;
   color: #fff;
-
+  letter-spacing: 2px;
   font-family: "Syne", sans-serif;
   font-weight: 800;
 }
 
 .selectBoxDescription {
-  color:#ff5edf;
+  color: #f35d5d;
   margin-bottom: 20px;
   max-width: 450px;
   margin-top: 8px;
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 2;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 5px;
 }
 
 .cardImg {

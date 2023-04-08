@@ -2,6 +2,7 @@ import { MagicConnector } from "@thirdweb-dev/react/dist/declarations/src/evm/co
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+
 export default async function generateMintSignature(
   req: NextApiRequest,
   res: NextApiResponse
